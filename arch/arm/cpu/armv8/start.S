@@ -202,7 +202,7 @@ slave_cpu:
 	ldr	x0, [x1]
 	cbz	x0, slave_cpu
 	br	x0			/* branch to the given address */
-/* #endif */
+#endif /* CONFIG_ARMV8_MULTIENTRY */
 master_cpu:
 	msr	SPSel, #1		/* make sure we use SP_ELx */
 	bl	_main
@@ -316,7 +316,7 @@ WEAK(lowlevel_init)
 #endif
 #endif
 
-/* #ifdef CONFIG_ARMV8_MULTIENTRY */
+#if 1 // Forced EL2 bypass
 	branch_if_master x0, 2f
 
 	/*
@@ -329,6 +329,7 @@ WEAK(lowlevel_init)
 	ldr	x0, =GICC_BASE
 #endif
 	bl	gic_wait_for_interrupt
+#endif
 
 	/*
 	 * All slaves will enter EL2 and optionally EL1.
@@ -346,7 +347,7 @@ lowlevel_in_el2:
 lowlevel_in_el1:
 #endif
 
-/* #endif */
+#endif /* CONFIG_ARMV8_MULTIENTRY */
 
 2:
 	mov	lr, x29			/* Restore LR */
