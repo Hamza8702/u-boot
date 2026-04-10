@@ -202,6 +202,7 @@ slave_cpu:
 	ldr	x0, [x1]
 	cbz	x0, slave_cpu
 	br	x0			/* branch to the given address */
+/* #endif */
 master_cpu:
 	msr	SPSel, #1		/* make sure we use SP_ELx */
 	bl	_main
@@ -315,6 +316,7 @@ WEAK(lowlevel_init)
 #endif
 #endif
 
+/* #ifdef CONFIG_ARMV8_MULTIENTRY */
 	branch_if_master x0, 2f
 
 	/*
@@ -345,6 +347,7 @@ lowlevel_in_el2:
 lowlevel_in_el1:
 #endif
 
+/* #endif */
 
 2:
 	mov	lr, x29			/* Restore LR */
