@@ -329,7 +329,6 @@ WEAK(lowlevel_init)
 	ldr	x0, =GICC_BASE
 #endif
 	bl	gic_wait_for_interrupt
-#endif
 
 	/*
 	 * All slaves will enter EL2 and optionally EL1.
